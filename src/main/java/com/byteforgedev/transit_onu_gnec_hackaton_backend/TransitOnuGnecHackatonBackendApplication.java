@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TransitOnuGnecHackatonBackendApplication {
+public class TransitOnuGnecHackatonBackendApplication  {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TransitOnuGnecHackatonBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TransitOnuGnecHackatonBackendApplication.class, args);
+    }
 
 }
