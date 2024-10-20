@@ -17,10 +17,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Audit {
-    @Column(name = "fecha_creacion")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "fecha_actualizacion")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist
