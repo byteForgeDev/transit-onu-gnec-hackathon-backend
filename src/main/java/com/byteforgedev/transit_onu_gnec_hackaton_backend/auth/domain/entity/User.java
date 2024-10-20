@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.cities.domain.entity.City;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.Audit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -91,6 +92,11 @@ public class User implements UserDetails {
         uniqueConstraints = { @UniqueConstraint(columnNames = {"usuario_id", "rol_id"})}
     )
     private List<Rol> roles;
+
+
+    @ManyToOne
+    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    private City city;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
