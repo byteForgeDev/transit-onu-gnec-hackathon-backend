@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                     .requestMatchers("/auth/**").permitAll() // allow all access to /auth/** 
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .requestMatchers("/api/**").authenticated() // Only authenticated users /**/** 
                     .anyRequest().authenticated()) // have to be an auth user for any other request
                 .authenticationProvider(authProvider)
