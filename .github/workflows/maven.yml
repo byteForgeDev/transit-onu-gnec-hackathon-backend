@@ -39,7 +39,7 @@ jobs:
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        echo "DB_USERNAME is set to $(printf "%*s" "${#DB_USERNAME}" | tr ' ' '*' | sed "s/./*/$(( (${#DB_USERNAME} - 1) / 2 + 1 ))")
+        echo "DB_USERNAME is set to $DB_USERNAME"
         sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/target/transit-onu-gnec-hackaton-backend-0.0.1-SNAPSHOT.jar &
         # Check if the app is responding on localhost:8080 (or your specified endpoint)
         sleep 30
