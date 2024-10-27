@@ -21,6 +21,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Add Maven to PATH
+      run: echo "/usr/bin:$PATH" >> $GITHUB_ENV
+    - name: Check Maven version
+      run: mvn -v
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
