@@ -28,10 +28,10 @@ jobs:
           cache: maven
       - name: Create .env file
         run: |
-          touch home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_URL=${{ secrets.DB_URL }}" >> home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          touch /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Execute Jar File
