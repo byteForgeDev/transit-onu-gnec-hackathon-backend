@@ -34,4 +34,8 @@ jobs:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: mvn -B package --file pom.xml
     - name: Execute Jar File
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/target/transit-onu-gnec-hackaton-backend-0.0.1-SNAPSHOT.jar &
