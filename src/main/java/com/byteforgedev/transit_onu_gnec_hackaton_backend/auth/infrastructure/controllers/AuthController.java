@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -47,4 +49,10 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request){
         return ResponseEntity.ok(authAdapter.register(request));
     }
+
+    @GetMapping("/test")
+    public String demo() {
+        return "Lo logramos";
+    }
+    
 }
