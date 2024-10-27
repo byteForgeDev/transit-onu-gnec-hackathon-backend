@@ -33,7 +33,16 @@ jobs:
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: |
+          set -x  # Enable debug output
+          process_id=$(sudo lsof -t -i:80) || { echo "lsof command failed"; }
+
+          if [ -n "$process_id" ]; then
+            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
+          else
+            echo "No processes found on port 80."
+          fi
+          mvn -B package --file pom.xml
       - name: Execute Jar File
         run: |
           set -x  # Enable debug output
