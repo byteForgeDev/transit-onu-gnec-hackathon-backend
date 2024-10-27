@@ -41,4 +41,5 @@ jobs:
       run: |
         sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/target/transit-onu-gnec-hackaton-backend-0.0.1-SNAPSHOT.jar &
         # Check if the app is responding on localhost:8080 (or your specified endpoint)
+        sleep 30
         curl -I http://localhost:8080 || echo "Application did not start or is not reachable."
