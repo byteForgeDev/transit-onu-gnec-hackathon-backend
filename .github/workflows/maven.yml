@@ -38,10 +38,11 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          process_id=$(sudo lsof -t -i:80) || { echo "lsof command failed"; exit 1; }
+          set -x  # Enable debug output
+          process_id=$(sudo lsof -t -i:80) || { echo "lsof command failed"; }
 
           if [ -n "$process_id" ]; then
-            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; exit 1; }
+            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
           else
             echo "No processes found on port 80."
           fi
