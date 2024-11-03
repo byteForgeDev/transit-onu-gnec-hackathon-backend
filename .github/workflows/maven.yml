@@ -28,33 +28,33 @@ jobs:
           cache: maven
       - name: Create .env file
         run: |
-          touch /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_URL=${{ secrets.IP_PRODUCTION }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_URL=${{ secrets.DB_URL }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          env_path="/home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env"
+          touch $env_path
+          echo "DB_URL=${{ secrets.IP_PRODUCTION }}" >> $env_path
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $env_path
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $env_path
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $env_path
+
+      - name: Stop Existing Application
+        run: |
+          set -x
+          # Find and kill any processes on port 80
+          process_id=$(sudo lsof -t -i:80) || { echo "No process found on port 80"; exit 0; }
+          if [ -n "$process_id" ]; then
+            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; exit 1; }
+            echo "Stopped process $process_id"
+          else
+            echo "No application running on port 80."
+          fi
+          sleep 10
+
       - name: Build with Maven
         run: |
-          set -x  # Enable debug output
-          process_id=$(sudo lsof -t -i:80) || { echo "lsof command failed"; }
-
-          if [ -n "$process_id" ]; then
-            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
-          else
-            echo "No processes found on port 80."
-          fi
           mvn -B package --file pom.xml
+          sleep 10
+
       - name: Execute Jar File
         run: |
-          set -x  # Enable debug output
-          process_id=$(sudo lsof -t -i:80) || { echo "lsof command failed"; }
-
-          if [ -n "$process_id" ]; then
-            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
-          else
-            echo "No processes found on port 80."
-          fi
-
           # Start the application
           sudo java -jar /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/target/transit-onu-gnec-hackaton-backend-0.0.1-SNAPSHOT.jar &
           # Check if the app is responding on localhost:8080 
