@@ -1,5 +1,6 @@
 package com.byteforgedev.transit_onu_gnec_hackaton_backend.configuration;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+@Configuration
 @OpenAPIDefinition(
         info = @Info(
                 title = "TRANSIT ONU GNEC API",
@@ -23,13 +25,13 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        description = "DEV SERVER",
-                        url = "http://localhost:8080"
+                        description = "PROD SERVER",
+                        url = "http://${IP_PRODUCTION}:8080" // Placeholder
                 ),
                 @Server(
-                        description = "PROD SERVER",
-                        url = "http://54.159.46.181:8080"
-                )
+                        description = "DEV SERVER",
+                        url = "http://localhost:8080"
+                )  
         },
         security = @SecurityRequirement(
                 name = "Security Token"
