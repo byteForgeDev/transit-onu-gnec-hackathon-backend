@@ -1,5 +1,6 @@
 package com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,13 +15,13 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.se
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    @Value("${IP_PRODUCTION}")
+    private String ipProduction;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
@@ -31,7 +32,8 @@ public class SecurityConfig {
                 .cors(cors -> cors
                     .configurationSource(request -> {
                         var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-                        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
+                        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+                        corsConfiguration.addAllowedOrigin("http://" + ipProduction + ":8080");
                         corsConfiguration.addAllowedMethod("*");
                         corsConfiguration.addAllowedHeader("*");
                         corsConfiguration.setAllowCredentials(true);

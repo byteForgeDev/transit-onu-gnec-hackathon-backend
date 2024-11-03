@@ -16,19 +16,51 @@ on:
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-# Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Create .env file
+        run: |
+          env_path="/home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env"
+          touch $env_path
+          echo "IP_PRODUCTION=${{ secrets.IP_PRODUCTION }}" >> $env_path
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $env_path
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $env_path
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $env_path
+
+      - name: Stop Existing Application
+        run: |
+          set -x
+          # Find and kill any processes on port 80
+          process_id=$(sudo lsof -t -i:80) || { echo "No process found on port 80";}
+          if [ -n "$process_id" ]; then
+            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
+            echo "Stopped process $process_id"
+          else
+            echo "No application running on port 80."
+          fi
+          sleep 10
+
+      - name: Build with Maven
+        run: |
+          mvn -B package --file pom.xml
+          sleep 10
+
+      - name: Execute Jar File
+        run: |
+          # Start the application
+          sudo java -jar /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/target/transit-onu-gnec-hackaton-backend-0.0.1-SNAPSHOT.jar &
+          # Check if the app is responding on localhost:8080 
+          sleep 30
+          if curl -I http://localhost:8080; then
+            echo "Application is reachable."
+          else
+            echo "Application did not start or is not reachable."
+          fi
