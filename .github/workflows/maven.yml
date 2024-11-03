@@ -29,6 +29,7 @@ jobs:
       - name: Create .env file
         run: |
           touch /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
+          echo "DB_URL=${{ secrets.IP_PRODUCTION }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
           echo "DB_URL=${{ secrets.DB_URL }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /home/ubuntu/actions-runner/_work/transit-onu-gnec-hackathon-backend/transit-onu-gnec-hackathon-backend/src/main/resources/.env
