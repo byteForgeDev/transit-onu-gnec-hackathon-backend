@@ -14,6 +14,8 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.se
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -29,7 +31,7 @@ public class SecurityConfig {
                 .cors(cors -> cors
                     .configurationSource(request -> {
                         var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-                        corsConfiguration.addAllowedOrigin("http://localhost:5173");
+                        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
                         corsConfiguration.addAllowedMethod("*");
                         corsConfiguration.addAllowedHeader("*");
                         corsConfiguration.setAllowCredentials(true);

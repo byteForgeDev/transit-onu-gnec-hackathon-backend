@@ -67,7 +67,6 @@ public class User implements UserDetails {
     @Email(message = "The email must be in this format: johndoe@gmail.com")
     private String email;
 
-    
     @Column(name= "photo_profile_url" ,columnDefinition = "TEXT", nullable = false)
     private String photoProfileUrl;
 
