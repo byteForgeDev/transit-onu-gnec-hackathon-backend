@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 ),
                 @Server(
                         description = "PROD SERVER",
-                        url = "http://StillNotWorking:8080"
+                        url = "http://54.159.46.181:8080"
                 )
         },
         security = @SecurityRequirement(
