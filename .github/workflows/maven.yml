@@ -39,9 +39,9 @@ jobs:
         run: |
           set -x
           # Find and kill any processes on port 80
-          process_id=$(sudo lsof -t -i:80) || { echo "No process found on port 80"; exit 0; }
+          process_id=$(sudo lsof -t -i:80) || { echo "No process found on port 80";}
           if [ -n "$process_id" ]; then
-            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; exit 1; }
+            sudo kill -9 "$process_id" || { echo "Failed to kill process $process_id"; }
             echo "Stopped process $process_id"
           else
             echo "No application running on port 80."
