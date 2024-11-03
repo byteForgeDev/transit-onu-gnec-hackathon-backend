@@ -38,6 +38,7 @@ jobs:
       - name: Stop Existing Application
         run: |
           set -x
+          sudo killall java || echo "No Java processes to kill."
           # Find and kill any processes on port 80
           process_id=$(sudo lsof -t -i:80) || { echo "No process found on port 80";}
           if [ -n "$process_id" ]; then
