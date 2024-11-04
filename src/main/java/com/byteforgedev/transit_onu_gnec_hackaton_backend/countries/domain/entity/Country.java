@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +35,6 @@ public class Country {
     private String name;
 
     @Embedded
+    @Builder.Default
     private Audit audit = new Audit();
 }
