@@ -19,6 +19,10 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.domain.entity.Use
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.repositories.RoleRepository;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.repositories.UserRepository;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.security.jwt.JwtService;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.cities.application.CityServiceImpl;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.cities.domain.dto.CityRequest;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.cities.domain.entity.City;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.cities.infrastructure.repository.CityRepository;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.Audit;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.exception.dto.BusinessException;
 
@@ -30,6 +34,8 @@ public class AuthServiceImpl {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository; 
+    private final CityRepository cityRepository; 
+    private final CityServiceImpl cityServiceImpl;
 
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -67,12 +73,26 @@ public class AuthServiceImpl {
             throw new BusinessException("P-300", HttpStatus.CONFLICT, "The username is already taken");
         } 
 
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new BusinessException("P-400", HttpStatus.CONFLICT, "The email already exists");
+        }
         
         List<Rol> roles = request.getRoles().stream()
         .map(roleName -> roleRepository.findByRol(roleName)
                 .orElseThrow(() -> new RuntimeException("Role not found: " + roleName)))
         .collect(Collectors.toList());
 
+        Optional<City> existingCity = cityRepository.findCityByName(request.getCityName());
+        City city;
+        if (existingCity.isPresent()) {
+            city = existingCity.get();
+        }else{
+            CityRequest cityRequest = CityRequest.builder()
+                                        .cityName(request.getCityName())
+                                        .countryName(request.getCountryName())
+                                        .build();
+            city = cityServiceImpl.save(cityRequest);
+        }
 
         User user = User.builder()
                 .username(request.getUsername())
@@ -80,6 +100,7 @@ public class AuthServiceImpl {
                 .email(request.getEmail())
                 .photoProfileUrl(request.getPhotoProfileUrl())
                 .roles(roles) 
+                .city(city)
                 .enabled(true) 
                 .audit(new Audit())
                 .build();

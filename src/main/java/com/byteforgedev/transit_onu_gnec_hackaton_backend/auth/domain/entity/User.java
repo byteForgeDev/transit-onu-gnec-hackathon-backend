@@ -72,6 +72,7 @@ public class User implements UserDetails {
     private String photoProfileUrl;
 
     @Embedded
+    @Builder.Default
     private Audit audit = new Audit();
 
     @Transient
@@ -95,7 +96,7 @@ public class User implements UserDetails {
 
 
     @ManyToOne
-    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    @JoinColumn(name = "city_id", insertable = true, updatable = true)
     private City city;
 
     @Override
