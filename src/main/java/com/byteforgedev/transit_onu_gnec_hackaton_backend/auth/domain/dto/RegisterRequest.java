@@ -35,6 +35,14 @@ public class RegisterRequest {
     @Column(name= "photo_profile_url" ,columnDefinition = "TEXT", nullable = false)
     private String photoProfileUrl;
 
+    @NotBlank(message = "Please add a name for the city")
+    @Column(columnDefinition = "VARCHAR(50)", nullable = false)
+    private String cityName;
+
+    @NotBlank(message = "Please add a name for the country")
+    @Column(columnDefinition = "VARCHAR(50)", nullable = false)
+    private String countryName;
+
     // @NotBlank(message = "Por favor, añade un rol")
     private List<String> roles;
 }

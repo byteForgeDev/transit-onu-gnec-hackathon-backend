@@ -11,5 +11,6 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.domain.entity.Use
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
+    boolean existsByEmail(String email);
 
 }

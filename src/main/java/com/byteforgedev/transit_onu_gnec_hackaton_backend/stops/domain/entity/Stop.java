@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +33,17 @@ public class Stop {
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String name;
 
-    @NotBlank(message = "Please add a location for the stop")
-    @Column(columnDefinition = "VARCHAR(50)", nullable = false)
-    private String location;
+    @NotNull(message = "Please add the latitude of the stop")
+    @Column(columnDefinition = "NUMERIC(9,6)", nullable = false)
+    private Double latitude;
+
+    @NotNull(message = "Please add the longitude of the stop")
+    @Column(columnDefinition = "NUMERIC(9,6)", nullable = false)
+    private Double longitude;
+
+    @NotBlank(message = "Please add a description for the stop")
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String description;
 
     @Embedded
     private Audit audit = new Audit();

@@ -13,7 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,19 +28,22 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Please add a name for the country")
+    @NotBlank(message = "Please add a name for the city")
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String name;
 
     @Embedded
+    @Builder.Default
     private Audit audit = new Audit();
 
+    @NotNull(message = "Please select a country")
     @ManyToOne
-    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    @JoinColumn(name = "country_id", insertable = true, updatable = true)
     private Country country;
 }

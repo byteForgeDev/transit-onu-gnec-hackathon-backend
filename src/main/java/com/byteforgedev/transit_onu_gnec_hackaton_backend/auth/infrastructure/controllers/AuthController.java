@@ -1,6 +1,7 @@
 package com.byteforgedev.transit_onu_gnec_hackaton_backend.auth.infrastructure.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
@@ -40,8 +40,22 @@ public class AuthController {
                     description = "Authentication request with username and password",
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(value = "{  \"username\": \"Sample User\", \"password\": \"123Abc#\",\"email\": \"sample@example.com\",\"photoProfileUrl\": \"\",\"roles\": [\"ADMIN\"] }")
+                        mediaType = "application/json",
+                        examples = {
+                            @ExampleObject(
+                                value = """
+                                {
+                                    "username": "Sample User",
+                                    "password": "123Abc#",
+                                    "email": "sample@example.com",
+                                    "photoProfileUrl": "",
+                                    "roles": ["ADMIN"],
+                                    "cityName": "Bogota",
+                                    "countryName": "Colombia"
+                                }
+                                """
+                            )
+                        }
                     )
             )
     )
