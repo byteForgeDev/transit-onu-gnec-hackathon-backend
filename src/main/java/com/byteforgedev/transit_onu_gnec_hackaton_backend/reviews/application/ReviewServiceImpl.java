@@ -1,17 +1,21 @@
 package com.byteforgedev.transit_onu_gnec_hackaton_backend.reviews.application;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.reviews.domain.entity.Review;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.reviews.domain.services.ReviewService;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.reviews.infrastructure.repository.ReviewRepository;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.exception.dto.BusinessException;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    
 
     public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
@@ -38,5 +42,12 @@ public class ReviewServiceImpl implements ReviewService {
                 return reviewRepository.findAll();
             }
         }
+    }
+
+    @Override
+    public Review save(Review request) {
+       
+
+        return reviewRepository.save(request);
     }
 }

@@ -7,6 +7,7 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.Audit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,12 +58,23 @@ public class Review {
     private Audit audit = new Audit();
 
     @NotNull(message = "You must be an user to make a review")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = true, updatable = true, nullable = false)
     private User user;
 
     @NotNull(message = "The review must be associated with a route")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id", insertable = true, updatable = true, nullable = false)
     private Route route;
+
+    @Override
+    public String toString() {
+        return "Review " +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", stars=" + stars +
+            ", content='" + content + '\'' +
+            ", user=" + user +
+            ", route=" + route ;
+    }
 }

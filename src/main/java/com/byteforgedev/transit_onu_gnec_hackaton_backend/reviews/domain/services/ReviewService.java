@@ -6,4 +6,6 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.reviews.domain.entity.
 
 public interface ReviewService {
     List<Review> getReviews(Long routeId, String sort);
+
+    Review save(Review request);
 }
