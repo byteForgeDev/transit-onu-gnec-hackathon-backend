@@ -2,6 +2,7 @@ package com.byteforgedev.transit_onu_gnec_hackaton_backend.maps.infrastructure.c
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +15,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -49,7 +48,7 @@ public class GoogleMapsController {
     )
     @PostMapping("/coordinates")
     public ResponseEntity<AddressOnlyResponse> getAddressFromCoordinates(
-        @org.springframework.web.bind.annotation.RequestBody GeocodeRequest request) {
+        @RequestBody GeocodeRequest request) {
                 return ResponseEntity.ok(googleMapsServiceImpl.getAddressFromCoordinates(request.getLat(), request.getLng()));
             }
 

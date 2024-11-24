@@ -8,6 +8,7 @@ import com.byteforgedev.transit_onu_gnec_hackaton_backend.maps.domain.dto.Geocod
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.maps.domain.dto.LocationOnlyResponse;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.maps.domain.services.GoogleMapsService;
 import com.byteforgedev.transit_onu_gnec_hackaton_backend.maps.infrastructure.api.GoogleMapsClient;
+import com.byteforgedev.transit_onu_gnec_hackaton_backend.utils.exception.dto.EmptyResultException;
 
 @Service
 public class GoogleMapsServiceImpl implements GoogleMapsService {
@@ -35,7 +36,17 @@ public class GoogleMapsServiceImpl implements GoogleMapsService {
 
     @Override
     public LocationOnlyResponse getCoordinatesFromAddress(String address) {
+
+        if (address.isEmpty()) {
+            throw new EmptyResultException("Imposible to convert a empty address to coordinates.");
+        }
+
         GeocodeResponse fullResponse = googleMapsClient.getCoordinatesFromAddress(address);
+
+        // Check if the response contains results
+        if (fullResponse.getResults().isEmpty()) {
+            throw new EmptyResultException("No results found for the provided address: " + address);
+        }
 
         // Extract the first location (latitude and longitude) from the response
         GeocodeResponse.Location location = fullResponse.getResults()
